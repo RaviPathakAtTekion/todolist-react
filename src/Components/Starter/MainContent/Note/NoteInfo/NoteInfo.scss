@@ -1,0 +1,38 @@
+.data--style {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: .5em;
+    margin: .5em;
+}
+
+.task--length__style{
+    padding: .5em;
+    font-size: 1.25em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.button__style {
+    background-image: linear-gradient(to right, #3d92ed 0%, #a2ebf8 51%, #1276bd 100%);
+    padding: 1em;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 1s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: .5em .5em 2em #eee;
+    border: .2em solid rgb(181, 211, 239);
+    border-radius: 1em;
+    display: block;
+    font-weight: bold;
+}
+
+.button__style:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    color: black;
+    border: .2em solid rgb(51, 139, 222);
+}

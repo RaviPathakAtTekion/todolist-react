@@ -1,0 +1,16 @@
+.title--input__style {
+    border: none;
+    color: rgb(174, 131, 238);
+    padding: 0.5em;
+    margin: 0.75em;
+    font-size: 2.5em;
+    font-weight: bold;
+    width: 75%;
+
+    &:focus {
+        outline: none;
+        border: 1px solid black;
+        border-radius: 0.5em;
+        box-shadow: 0.5em 0.5em 0.5em lightgray;
+    }
+}

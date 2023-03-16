@@ -1,0 +1,33 @@
+
+.taskDiv {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 0.5em;
+    margin: 1em;
+}
+
+.taskCheckBox {
+    margin: 1em;
+    width: 2em;
+    height: 2em;
+    cursor: pointer;
+    border: .1em solid black;
+    border-radius: 1em;
+    background: lightcyan;
+    position: relative;
+}
+
+.task--input__style {
+    margin: .5em;
+    padding: .5em;
+    width: 75%;
+    font-weight: 600;
+    font-size: 1.5em;
+    border: .1em solid lightslategrey;
+    border-radius: .5em;
+}
+
+.strike--text{
+    text-decoration: line-through;
+}

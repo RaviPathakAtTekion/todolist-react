@@ -1,0 +1,20 @@
+.close--note {
+    background: transparent;
+    font-weight: bold;
+    border: none;
+    font-size: 1.5em;
+    border-radius: 1em;
+    padding: 0.5em;
+    width: 10%;
+    height: 10%;
+    position: relative;
+    text-align: center;
+    top: -.20em;
+
+    &:hover {
+        cursor: pointer;
+        color: white;
+        background-color: rgb(239, 101, 101);
+        text-shadow: 0.5em 0.5em 0.5em lightslategrey;
+    }
+}

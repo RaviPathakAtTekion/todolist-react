@@ -1,0 +1,19 @@
+.footer--container {
+    padding: 2em;
+    margin-top: 2em;
+    background: linear-gradient(to right, #9dece6, #9393d2);
+    border: 2px solid lightblue;
+    border-radius: 1em;
+    position: fixed;
+    bottom: 0;
+    min-width: -webkit-fill-available;
+    z-index: 100;
+
+    >h4 {
+        font-size: 2em;
+        font-weight: 600;
+        text-align: center;
+        color: white;
+        text-shadow: .15em .15em .15em rgb(119, 195, 191);
+    }
+}
