@@ -1,10 +1,14 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { closeNoteRedux } from "../../../../Helpers/AllHelpers.js";
 import "./CloseButton.scss";
 
-function CloseButton({ note, updatesNotesTaskArray}) {
+function CloseButton({ note}) {
+
+  const dispatch = useDispatch();
 
   const closeNote = (note) => {
-    updatesNotesTaskArray(null, note.id);
+    closeNoteRedux(note.id, dispatch);
   };
 
   return (

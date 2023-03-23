@@ -1,21 +1,23 @@
 import { useState, useEffect, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import "./ContentPage.scss";
 import MainContent from "./MainContent/MainContent.js";
 import { changeNoteData } from "../Helpers/AllHelpers.js";
 import { countNotes } from "../Helpers/AllHelpers.js";
-import { addNoteThrottler } from "../Helpers/AllHelpers.js";
+import { addNoteThrottlerRedux } from "../Helpers/AllHelpers.js";
 
 function ContentPage() {
-  const [notes, setNewNote] = useState([]);
   const [noteLength, setNoteLength] = useState(0);
+
+  const notes = useSelector(state => state.notes);
+  const dispatch = useDispatch();
 
   useEffect(() => {}, [notes, noteLength]);
 
   const changeNotesData = useCallback(
     (changedNote, id) => {
       const newNoteArray = changeNoteData(notes, changedNote, id);
-      setNewNote([...newNoteArray]);
 
       const newNoteLength = countNotes(newNoteArray);
 
@@ -25,7 +27,7 @@ function ContentPage() {
   );
 
   const callThrottler = () => {
-    addNoteThrottler(setNewNote, setNoteLength, notes);
+    addNoteThrottlerRedux(notes, dispatch, setNoteLength);
   };
 
   return (

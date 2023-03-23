@@ -1,19 +1,19 @@
+import { noteAction, taskAction, addTitle, closeNote, addInput, changeStatus, completeNote } from "../../redux/noteArray/ArrayActions.js";
 
 // change notes array after data change
-function changeNoteData (notes, changedNote, id) {
+function changeNoteData(notes, changedNote, id) {
   const changedNoted = notes.map((note) => {
-      if (note !== null && note.id === id) {
-        return changedNote;
-      } else {
-        return note;
-      }
+    if (note !== null && note.id === id) {
+      return changedNote;
+    } else {
+      return note;
+    }
   });
   return changedNoted;
-};
-
+}
 
 // create new note
-function createNewNote (id) {
+function createNewNote(id) {
   const time = new Date();
 
   const timeStamp = {
@@ -28,40 +28,41 @@ function createNewNote (id) {
     completed: false,
   };
   return note;
-};
+}
 
-
-// create new task 
-function createNewTask (id) {
+// create new task
+function createNewTask(id) {
   const task = {
     id: "Task" + id,
     status: false,
     content: "",
   };
   return task;
-};
+}
 
-
-// Count Notes after Deletin
-function countNotes (noteArray) {
+// Count Notes after Deleting
+function countNotes(noteArray) {
   let counter = 0;
-  noteArray.forEach(element => {
-      if(element !== null){
-          counter++;
-      }
+  noteArray.forEach((element) => {
+    if (element !== null) {
+      counter++;
+    }
   });
   return counter;
-};
-
-
-// Debounce Task Input
-function getTaskInput(e, taskId, newNote, updatesNotesTaskArray) {
-  e.target.blur();
-  taskId.content = e.target.value;
-  updatesNotesTaskArray(newNote, newNote.id);
 }
 
-function debounceTask(callback, delay = 1000) {
+// add Input value to Task 
+function addInputValue (noteId, taskId, e, dispatch) {
+  dispatch(addInput(noteId, taskId, e.target.value));
+}
+ 
+// Debounce Task Input
+function getTaskInput(noteId, taskId, e, dispatch) {
+  e.target.blur();
+  dispatch(addInput(noteId, taskId, e.target.value));
+}
+
+function debounceTask(callback, delay = 2000) {
   let timer;
   return (...args) => {
     clearTimeout(timer);
@@ -72,19 +73,28 @@ function debounceTask(callback, delay = 1000) {
   };
 }
 
-const debounceTaskInput = debounceTask((e, taskId, newNote, updatesNotesTaskArray) =>
-  getTaskInput(e, taskId, newNote, updatesNotesTaskArray)
+const debounceTaskInput = debounceTask(
+  (noteId, taskId, e, dispatch) =>
+    getTaskInput(noteId, taskId, e, dispatch)
 );
 
+// close note with redux
+function closeNoteRedux (id, dispatch) {
+  dispatch(closeNote(id))
+}
+
+// add title to input redux
+function addTitleToNote (note, dispatch, e) {
+  dispatch(addTitle(note.id, e.target.value));
+}
 
 // Debounce Title Input
-function getInput(note, e, updatesNotesTaskArray) {
+function getInput(note, e, dispatch) {
   e.target.blur();
-
-  updatesNotesTaskArray({ ...note, title: e.target.value }, note.id);
+  dispatch(addTitle(note.id, e.target.value));
 }
 
-function debounce(callback, delay = 1000) {
+function debounce(callback, delay = 2000) {
   let timer;
   return (...args) => {
     clearTimeout(timer);
@@ -95,23 +105,18 @@ function debounce(callback, delay = 1000) {
   };
 }
 
-const debounceInput = debounce((note, e, updatesNotesTaskArray) =>
-  getInput(note, e, updatesNotesTaskArray)
+const debounceInput = debounce((note, e, dispatch) =>
+  getInput(note, e, dispatch)
 );
 
-
-// throttle add button
-const addNote = (setNewNote, setNoteLength, notes) => {
+// add note adder throttler with redux
+const addNoteRedux = (notes, dispatch, setNoteLength) => {
   const note = createNewNote(notes.length + 1);
-  
-    setNewNote([...notes, note]);
-
-    const newNoteLength = countNotes(notes);
-
-    setNoteLength(newNoteLength + 1);
+  dispatch(noteAction(note));
+  setNoteLength(notes.length + 1);
 };
 
-function noteThrottler(callback, delay = 2000) {
+function noteThrottlerRedux(callback, delay = 2000) {
   let flag = false;
 
   return (...args) => {
@@ -128,20 +133,25 @@ function noteThrottler(callback, delay = 2000) {
   };
 }
 
-const addNoteThrottler = noteThrottler(
-  (setNewNote, setNoteLength, notes) =>
-    addNote(setNewNote, setNoteLength, notes)
+const addNoteThrottlerRedux = noteThrottlerRedux(
+  (notes, dispatch, setNoteLength) =>
+    addNoteRedux(notes, dispatch, setNoteLength)
 );
 
+// change status for task
+function ChangeTaskStatus (noteId, taskId, status, dispatch) {
+  dispatch(changeStatus(noteId, taskId, status));
+}
 
-// add task throttler
-const addTask = (updatesNotesTaskArray, setTaskLength, note) => {
+// add task to note with throttler using redux
+const addTaskRedux = (setTaskLength, note, dispatch) => {
   const task = createNewTask(note.tasks.length + 1);
-    updatesNotesTaskArray({ ...note, tasks: [...note.tasks, task] }, note.id);
-    setTaskLength(note.tasks.length + 1);
+  
+  dispatch(taskAction(task, note.id));
+  setTaskLength(note.tasks.length);
 };
 
-function taskThrottler(callback, delay = 2000) {
+function taskThrottlerRedux(callback, delay = 2000) {
   let flag = false;
 
   return (...args) => {
@@ -158,9 +168,27 @@ function taskThrottler(callback, delay = 2000) {
   };
 }
 
-const addTaskThrottler = taskThrottler(
-  (updatesNotesTaskArray, setTaskLength, note) =>
-    addTask(updatesNotesTaskArray, setTaskLength, note)
+const addTaskThrottlerRedux = taskThrottlerRedux(
+  (setTaskLength, note, dispatch) => addTaskRedux(setTaskLength, note, dispatch)
 );
 
-export {changeNoteData, createNewNote, createNewTask, countNotes, debounceTaskInput, debounceInput, addNoteThrottler, addTaskThrottler};
+// complete note status 
+function completeNoteStatus (noteId, status, dispatch) {
+  dispatch(completeNote(noteId, status))
+}
+
+export {
+  addInputValue,
+  changeNoteData,
+  createNewNote,
+  createNewTask,
+  countNotes,
+  ChangeTaskStatus,
+  closeNoteRedux,
+  addTitleToNote,
+  debounceTaskInput,
+  debounceInput,
+  addNoteThrottlerRedux,
+  addTaskThrottlerRedux,
+  completeNoteStatus
+};

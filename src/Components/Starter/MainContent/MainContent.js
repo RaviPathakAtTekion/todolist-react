@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import Note from "./Note/Note.js";
+
 import "./MainContent.scss";
 
 function MainContent({ notes, noteLength, changeNotesData, addNote }) {

@@ -1,32 +1,28 @@
 import { useCallback, useState } from "react";
 import "./Task.scss";
-import {debounceTaskInput} from "../../../../Helpers/AllHelpers.js";
+import {debounceTaskInput, addInputValue, ChangeTaskStatus} from "../../../../Helpers/AllHelpers.js";
+import { useDispatch } from "react-redux";
 
-const Task = ({ task, updatesNotesTaskArray, note }) => {
+const Task = ({ task, note }) => {
   const [changeStatus, setChangeStatus] = useState(false);
 
-  const newNote = JSON.parse(JSON.stringify(note));
-  const taskId = newNote.tasks[task.id.substring(4) - 1];
-  
+  const dispatch = useDispatch();
+
   const getTaskInput = (e) => {
     if (e.key === "Enter") {
       e.target.blur();
 
-      taskId.content = e.target.value;
-
-      updatesNotesTaskArray(newNote, newNote.id);
+      addInputValue(note.id, task.id, e, dispatch)
     } else {
-      debounceTaskInput(e, taskId, newNote, updatesNotesTaskArray)
+      debounceTaskInput(note.id, task.id, e, dispatch);
     }
   };
 
   const toggleStatus = useCallback(() => {
-
-    taskId.status = taskId.status === true ? false : true; 
     setChangeStatus(prevState => prevState = !prevState);
-    updatesNotesTaskArray(newNote, newNote.id);
+    ChangeTaskStatus(note.id, task.id, !changeStatus, dispatch);
     
-  }, [newNote, taskId, updatesNotesTaskArray]);
+  }, [changeStatus, dispatch, note, task]);
 
   return (
     <div className="taskDiv">

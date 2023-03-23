@@ -1,20 +1,25 @@
 
 import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
+
 import "./titleInput.scss";
+import { addTitleToNote } from "../../../../Helpers/AllHelpers.js";
 import {debounceInput} from "../../../../Helpers/AllHelpers.js";
 
-const TitleInput = ({ note, updatesNotesTaskArray }) => {
+const TitleInput = ({ note }) => {
+
+  const dispatch = useDispatch();
   
   const getTitleInput = useCallback((note, e) => {
 
     if (e.key === "Enter") {
-      e.target.blur();
+      e.target.blur();      
 
-      updatesNotesTaskArray({ ...note, title: e.target.value }, note.id);
+      addTitleToNote(note, dispatch, e);
     } else {
-      debounceInput(note, e, updatesNotesTaskArray);
+      debounceInput(note, e, dispatch);
     }
-  }, [updatesNotesTaskArray])
+  }, [dispatch])
 
   return (
     <input

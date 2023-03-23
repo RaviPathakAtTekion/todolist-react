@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-
+import { completeNoteStatus } from "../../../../Helpers/AllHelpers.js";
+import { useDispatch } from "react-redux";
 import "./NoteInfo.scss";
 
-function NoteInfo({taskLength, note, updatesNotesTaskArray}) {
+function NoteInfo({taskLength, note}) {
   
   const [completeStatus, setcompleteStatus] = useState(false);
-  
-  const newNote = JSON.parse(JSON.stringify(note));
+  const dispatch = useDispatch();
   
   const changeNoteState = () => {
-
-    newNote.completed = true; 
-    setcompleteStatus(true);
-
-    updatesNotesTaskArray(newNote, newNote.id);
+    completeNoteStatus(note.id, true, dispatch);
+    setcompleteStatus(true); 
   }
 
   return (
