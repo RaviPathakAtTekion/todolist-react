@@ -9,13 +9,14 @@ function CloseButton({ note}) {
 
   const closeNote = (note) => {
     closeNoteRedux(note.id, dispatch);
+
   };
 
   return (
     <button
       type="button"
       className="close--note"
-      onClick={(e) => closeNote(note)}
+      onClick={() => closeNote(note)}
       id={note.id + "close"}
     >
       X

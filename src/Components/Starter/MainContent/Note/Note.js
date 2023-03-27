@@ -9,7 +9,7 @@ import CloseButton from "./CloseButton/CloseButton.js";
 import NoteInfo from "./NoteInfo/NoteInfo.js";
 import "./Note.scss";
 
-const Note = ({ note, updatesNotesTaskArray}) => {
+const Note = ({ note}) => {
 
   const [taskLength, setTaskLength] = useState(0);
   const dispatch = useDispatch();

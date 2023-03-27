@@ -80,7 +80,7 @@ const debounceTaskInput = debounceTask(
 
 // close note with redux
 function closeNoteRedux (id, dispatch) {
-  dispatch(closeNote(id))
+  dispatch(closeNote(id));
 }
 
 // add title to input redux
@@ -110,10 +110,9 @@ const debounceInput = debounce((note, e, dispatch) =>
 );
 
 // add note adder throttler with redux
-const addNoteRedux = (notes, dispatch, setNoteLength) => {
+const addNoteRedux = (notes, dispatch) => {
   const note = createNewNote(notes.length + 1);
   dispatch(noteAction(note));
-  setNoteLength(notes.length + 1);
 };
 
 function noteThrottlerRedux(callback, delay = 2000) {
@@ -134,8 +133,8 @@ function noteThrottlerRedux(callback, delay = 2000) {
 }
 
 const addNoteThrottlerRedux = noteThrottlerRedux(
-  (notes, dispatch, setNoteLength) =>
-    addNoteRedux(notes, dispatch, setNoteLength)
+  (notes, dispatch) =>
+    addNoteRedux(notes, dispatch)
 );
 
 // change status for task

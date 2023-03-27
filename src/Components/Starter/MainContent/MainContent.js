@@ -1,9 +1,18 @@
 import { Fragment } from "react";
 import Note from "./Note/Note.js";
+// import NotesCon
 
 import "./MainContent.scss";
+import { useSelector } from "react-redux";
 
-function MainContent({ notes, noteLength, changeNotesData, addNote }) {
+function MainContent({ addNote }) {
+  const notes = useSelector((state) => state.notes);
+
+  const noteLength = notes.filter((note) => {
+    if (note !== null && note.completed !== true) return true;
+    else return false;
+  }).length;
+
   return (
     <Fragment>
       <div className="info--header__style">
@@ -20,11 +29,7 @@ function MainContent({ notes, noteLength, changeNotesData, addNote }) {
       <div id="divStarter">
         {notes?.map((note) =>
           note !== null && note.completed !== true ? (
-            <Note
-              key={note.id}
-              note={note}
-              updatesNotesTaskArray={changeNotesData}
-            />
+            <Note key={note.id} note={note} />
           ) : (
             ""
           )

@@ -16,7 +16,7 @@ const ArrayReducer = (state = initialNoteArrayState, action) => {
         ...newState.notes[action.noteId.substring(3) - 1].tasks,
         action.payload,
       ];
-      return newState
+      return newState;
     }
     case "ADD_TITLE": {
       const newState = JSON.parse(JSON.stringify(state));
@@ -32,13 +32,17 @@ const ArrayReducer = (state = initialNoteArrayState, action) => {
     }
     case "ADD_INPUT": {
       const newState = JSON.parse(JSON.stringify(state));
-      newState.notes[action.noteId.substring(3) - 1].tasks[action.taskId.substring(4) - 1].content = action.payload;
+      newState.notes[action.noteId.substring(3) - 1].tasks[
+        action.taskId.substring(4) - 1
+      ].content = action.payload;
 
       return newState;
     }
     case "CHANGE_STATUS": {
       const newState = JSON.parse(JSON.stringify(state));
-      newState.notes[action.noteId.substring(3) - 1].tasks[action.taskId.substring(4) - 1].status = action.payload;
+      newState.notes[action.noteId.substring(3) - 1].tasks[
+        action.taskId.substring(4) - 1
+      ].status = action.payload;
 
       return newState;
     }
@@ -48,6 +52,13 @@ const ArrayReducer = (state = initialNoteArrayState, action) => {
 
       return newState;
     }
+    // case "NOTE_LENGTH": {
+    //   const count = state.notes.filter((note) => {
+    //     if (note != null && note !== true) return true;
+    //     else return false;
+    //   });
+    //   return count;
+    // }
 
     default:
       return state;

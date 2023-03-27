@@ -65,4 +65,11 @@ const completeNote = (noteId, status) => {
   }
 }
 
-export { noteAction, taskAction, addTitle, closeNote, addInput, changeStatus, completeNote };
+const notesArrayLength = () => {
+  return {
+    type: "NOTE_LENGTH",
+    description: "count notes length",
+  }
+}
+
+export { noteAction, taskAction, addTitle, closeNote, addInput, changeStatus, completeNote, notesArrayLength };
